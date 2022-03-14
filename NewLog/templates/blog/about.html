@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+    <div id="aboutBox">
+        <h1 class="display-4">About Me.</h1>
+        <p class="lead">
+            {% if admin.body_html %}
+                {{ admin.body_html|safe }}
+            {% else %}
+                {{ admin.body|safe }}
+            {% endif %}
+        </p>
+        <hr class="my-4">
+        <p class="lead">
+            <a class="btn btn-primary btn" href="https://github.com/QuiteZeal" role="button">Know more</a>
+        </p>
+    </div>
+{% endblock %}

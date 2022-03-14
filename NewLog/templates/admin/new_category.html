@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/form.html' import render_form %}
+
+{% block title %}New Category{% endblock %}
+
+{% block content %}
+    <div class="pt-3 pb-2">
+        <h1>New Category</h1>
+    </div>
+    {{ render_form(form) }}
+{% endblock %}

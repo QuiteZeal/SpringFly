@@ -1,0 +1,42 @@
+{% if posts %}
+    {% for post in posts %}
+        <div class="d-flex flex-column container-md my-4">
+            <div class="d-flex mb-3 border-bottom">
+                <h2 class="fs-2 text-primary my-auto">
+                    <a href="{{ url_for('.show_post', slug=post.slug) }}">{{ post.title }}</a>
+                </h2>
+                <span class="text-muted my-auto ml-auto">
+                {{ moment(post.timestamp).format('LL') }}</span>
+            </div>
+            <article class="article-preview">
+                {% if post.body_html %}
+                    {{ post.body_html|truncate(255, '...')|safe}}
+                {% else %}
+                    {{ post.body|truncate(255, '...')|safe}}
+                {% endif %}
+            </article>
+            <div class="d-flex">
+                <a id="readMore" class="btn btn-outline-primary btn-sm mr-auto"
+                   href="{{ url_for('.show_post', slug=post.slug) }}"
+                   role="button">Read more</a>
+                <a href="{{ url_for('.show_post', slug=post.slug) + '#postComment' }} "
+                   class="badge badge-success my-auto ml-1">
+                    Comments: {{ post.comments|length }}</a>
+                <a href="{{ url_for('.show_category', category_name=post.category.name) }}"
+                   class="badge badge-info my-auto ml-1">
+                    {{ post.category.name }}</a>
+            </div>
+        </div>
+{#                {% if not loop.last %}#}
+{#                    <hr>#}
+{#                {% endif %}#}
+    {% endfor %}
+{% else %}
+    <div class="mt-5 alert alert-dismissible alert-info">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <h4 class="alert-heading">Hey!</h4>
+        <p class="mb-0">Heads up! Nothing here, you need to write some.
+            <a href="{{ url_for('admin.new_post') }}" class="alert-link">Click here to write down your first
+                article.</a>.</p>
+    </div>
+{% endif %}

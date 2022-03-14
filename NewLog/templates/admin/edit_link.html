@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/form.html' import render_form %}
+
+{% block title %}Edit Link{% endblock %}
+
+{% block content %}
+    <div class="pt-3 pb-2">
+        <h1>Edit Link</h1>
+    </div>
+    {{ render_form(form) }}
+{% endblock %}

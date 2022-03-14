@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{#{% from 'blog/_macros.html' import pagenav %}#}
+{% from 'bootstrap/pagination.html' import render_pagination %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div>
+        <h1 class="display-3 mt-2 mb-1">{{ admin.blog_title|default('Blog Name') }}</h1>
+        <h4 class="text-muted my-auto">{{ admin.blog_sub_title|default('Blog Descrpition') }}</h4>
+    </div>
+    <div>
+        {% include 'blog/_posts.html' %}
+        {% if posts %}
+            {{ render_pagination(pagination) }}
+            {#                {{ pagenav(pagination) }}#}
+        {% endif %}
+    </div>
+{% endblock %}

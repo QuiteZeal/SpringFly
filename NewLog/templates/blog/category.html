@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block content %}
+    <div>
+        <h1 class="display-5">{{ category.name }}</h1>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            {% include 'blog/_category.html' %}
+        </div>
+    </div>
+{% endblock %}

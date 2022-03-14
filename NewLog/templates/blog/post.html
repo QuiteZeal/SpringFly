@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/form.html' import render_form %}
+{% from 'bootstrap/pagination.html' import render_pagination %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <div>
+        <h1 class="display-5 my-2 pt-2">{{ post.title }}</h1>
+        <div class="d-flex">
+            <a href="{{ url_for('.show_category', category_name=post.category.name) }}"
+               class="badge badge-info my-auto mr-1">
+                {{ post.category.name }}</a>
+            <a href="#postComment" class="badge badge-success my-auto mr-1">
+                Comments: {{ post.comments|length }}</a>
+            <a href="javascript:" class="badge badge-dark my-auto mr-auto">
+                {#  use timestamp or last_timestamp   #}
+                {{ moment(post.timestamp).format('lll') }}</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('admin.edit_post', post_id=post.id) }}" class="badge badge-info">Edit</a>
+            {% else %}
+                <a href="#" class="d-none d-sm-block badge badge-warning my-auto" data-toggle="modal"
+                   data-target="#permalinkModal">
+                    Share</a>
+            {% endif %}
+            <div id="permalinkModal" class="modal">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Permalink</h5>
+                            <button type="button" class="close close-clear" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <fieldset>
+                                    <label class="control-label" for="readOnlyInput">Share Link</label>
+                                    <input class="form-control" id="shareLink" type="text" readonly=""
+                                           value="{{ url_for('.show_post', slug=post.slug, _external=True) }}">
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <p class='text-success hidden-first'>Copied</p>
+                            <button type="button" class="btn btn-primary" data-clipboard-action="copy"
+                                    data-clipboard-target="#shareLink">Copy
+                            </button>
+                            <button type="button" class="btn btn-secondary close-clear" data-dismiss="modal">Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <article class="article">
+            {% if post.body_html %}
+                {{ post.body_html|safe }}
+            {% else %}
+                {{ post.body|safe }}
+            {% endif %}
+        </article>
+        <div id="postComment">
+            <h3 class="d-flex">{{ comments|length }} Comments
+                <small>
+                    <a href="{{ url_for('.show_post', slug=post.slug, page=pagination.pages or 1) }}#postComment"
+                       class="badge badge-light my-auto">Latest</a>
+                </small>
+                {% if current_user.is_authenticated %}
+                    <form method="post" class="my-auto ml-auto"
+                          action="{{ url_for('admin.set_comment', post_id=post.id, next=request.full_path) }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-sm btn-warning">
+                            {% if post.can_comment %}Disable{% else %}Enable{% endif %}
+                        </button>
+                    </form>
+                {% endif %}
+            </h3>
+            {% if comments %}
+                <ul class="list-group">
+                    {% for comment in comments %}
+                        <div class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">
+                                    <a href="{% if comment.site %}{{ comment.site }}{% else %}#{% endif %}"
+                                       target="_blank">
+                                        {% if comment.from_admin %}
+                                            {{ admin.name }}
+                                        {% else %}
+                                            {{ comment.author }}
+                                        {% endif %}
+                                    </a>
+                                    {% if comment.from_admin %}
+                                        <span class="badge badge-pill badge-primary">Author</span>
+                                    {% endif %}
+                                    {% if comment.replied %}
+                                        <span class="badge badge-pill badge-secondary">Reply</span>
+                                    {% endif %}
+                                </h5>
+                                <small data-toggle="tooltip" data-placement="top" data-delay="500"
+                                       data-timestamp="{{ comment.timestamp.strftime('%Y-%m-%dT%H:%M:%SZ') }}">
+                                    {{ moment(comment.timestamp).fromNow() }}
+                                </small>
+                            </div>
+                            <p class="mb-1">{{ comment.body }}</p>
+                            {% if comment.replied %}
+                                <p class="alert alert-secondary">
+                                    {{ comment.replied.author }} :
+                                    <br>{{ comment.replied.body }}
+                                </p>
+                            {% endif %}
+                            <div class="d-flex">
+                                <a class="ml-auto mr-1 btn btn-outline-primary btn-sm"
+                                   href="{{ url_for('.reply_comment', comment_id=comment.id) }}">Reply</a>
+                                {% if current_user.is_authenticated %}
+                                    <a href="mailto:{{ comment.email }}"
+                                       class="mr-1 btn btn-outline-info btn-sm">Email</a>
+                                    <form method="post"
+                                          action="{{ url_for('admin.delete_comment', comment_id=comment.id, next=request.full_path) }}">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm"
+                                                onclick="return confirm('Are you serious?');">Delete
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="jumbotron text-center">
+                    <h5 class="text-muted my-auto">Focus on Reading.</h5>
+                </div>
+            {% endif %}
+        </div>
+        {% if comments %}
+            <div class="mt-3">
+                {{ render_pagination(pagination, fragment='#postComment') }}
+            </div>
+        {% endif %}
+        {% if request.args.get('reply') %}
+            <div class="alert alert-secondary">
+                Reply to <strong>{{ request.args.get('author') }}</strong> :
+                <a class="float-right" href="{{ url_for('.show_post', slug=post.slug) }}">Cancel</a>
+            </div>
+        {% endif %}
+        {% if post.can_comment %}
+            <div id="commentForm">
+                {{ render_form(form, action=request.full_path) }}
+            </div>
+        {% else %}
+            <div id="commentForm">
+                <div class="jumbotron text-center">
+                    <h5 class="text-muted my-auto">Only Read. No Discuss.</h5>
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+{% endblock %}
