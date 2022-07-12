@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
     @Author: Zeal Young
-    @URL: https://spring-fly.com
-    @Create: 2020/9/11 10:44
+    @URL: https://ahaknow.com
+    @Create: 2021/9/11 10:44
 """
-from NewLog.extensions import db
-from NewLog.utils import on_changed_body
+from AhaKnow.extensions import db
+from AhaKnow.utils import on_changed_body
 # For timestamp
 from datetime import datetime
 # Generate Password

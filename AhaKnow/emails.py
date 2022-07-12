@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """
     @Author: Zeal Young
-    @URL: https://spring-fly.com
-    @Create: 2020/9/15 12:52
+    @URL: https://ahaknow.com
+    @Create: 2021/9/15 12:52
 """
 from flask import url_for, current_app
 from flask_mail import Message
 
-from NewLog.extensions import mail
+from AhaKnow.extensions import mail
 
 from threading import Thread
 

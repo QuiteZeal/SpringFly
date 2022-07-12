@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
     @Author: Zeal Young
-    @URL: https://spring-fly.com
-    @Create: 2020/9/12 16:42
+    @URL: https://ahaknow.com
+    @Create: 2021/9/12 16:42
 """
 from urllib.parse import urlparse, urljoin
 from flask import request, redirect, url_for

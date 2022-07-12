@@ -7,7 +7,7 @@
     {% block head %}
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}{% endblock title %} | {{ admin.blog_title|default('Spring Fly') }}</title>
+        <title>{% block title %}{% endblock title %} | {{ admin.blog_title|default('AhaKnow') }}</title>
         <link rel="icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}">
         <link rel="stylesheet"
               href="{{ url_for('static', filename='css/%s.bootstrap.min.css' % request.cookies.get('theme', 'sketchy')) }}"
@@ -20,7 +20,7 @@
     {% block nav %}
         <nav class="fixed-top navbar navbar-expand-md {% if request.cookies.get('theme', 'sketchy')=='sketchy' %}navbar-light bg-light{% else %}navbar-dark bg-primary{% endif %}">
             <div class="container-md">
-                <a class="navbar-brand" href="{{ url_for('blog.index') }}">{{ admin.blog_title|default('NewLog') }}</a>
+                <a class="navbar-brand" href="{{ url_for('blog.index') }}">{{ admin.blog_title|default('AhaKnow') }}</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03"
                         aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -128,7 +128,7 @@
     {% block footer %}
         <div class="margin-bottom text-muted d-flex justify-content-between">
             <div>
-                &copy; 2020 - {{ date_now.year }} <a href="https://github.com/QuiteZeal/SpringFly" target="_blank"
+                &copy; 2021 - {{ date_now.year }} <a href="https://github.com/IHKYoung/AhaKnow" target="_blank"
                                               title="Design by Zeal Young">&hearts; Zeal Young</a>
             </div>
             <div>

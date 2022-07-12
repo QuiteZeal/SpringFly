@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """
     @Author: Zeal Young
-    @URL: https://spring-fly.com
-    @Create: 2020/9/12 18:14
+    @URL: https://ahaknow.com
+    @Create: 2021/9/12 18:14
 """
 import random
 
-from NewLog import db
-from NewLog.models import Admin, Category, Comment, Post, Link
+from AhaKnow import db
+from AhaKnow.models import Admin, Category, Comment, Post, Link
 
 # avoid same name
 from sqlalchemy.exc import IntegrityError
@@ -20,10 +20,10 @@ fake = Faker()
 # dont use fake
 def fake_admin():
     admin = Admin(
-        username='fly',
-        blog_title='Spring Fly',
+        username='YOUNG',
+        blog_title='AhaKnow',
         blog_sub_title='Just for Writing.',
-        name='Fly',
+        name='Young',
         body='From here, to write there.'
     )
     db.session.add(admin)
@@ -87,9 +87,9 @@ def fake_comments(count=200):
 
         # generate admin comments
         comment = Comment(
-            author='Fly',
-            email='fly@quitezeal.com',
-            site='spring-fly.com',
+            author='YOUNG',
+            email='zeal@ahaknow.com',
+            site='ahaknow.com',
             body=fake.sentence(),
             timestamp=fake.date_time_this_year(),
             from_admin=True,
@@ -116,8 +116,6 @@ def fake_comments(count=200):
 
 
 def fake_links():
-    springfly = Link(name='Spring-Fly', url='#')
-    ahaknow = Link(name='AhaKnow', url='https://ahaknow.com')
-    quitezeal = Link(name='QuiteZeal', url='https://quitezeal.com')
-    db.session.add_all([springfly, ahaknow, quitezeal])
+    ahaknow = Link(name='AhaKnow', url='#')
+    db.session.add_all([ahaknow])
     db.session.commit()

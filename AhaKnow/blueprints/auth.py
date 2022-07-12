@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 """
     @Author: Zeal Young
-    @URL: https://spring-fly.com
-    @Create: 2020/9/9 21:07
+    @URL: https://ahaknow.com
+    @Create: 2021/9/9 21:07
 """
 from flask import Blueprint, render_template, redirect, url_for, flash
 # Login and logout
 from flask_login import login_user, login_required, logout_user, current_user
 
-from NewLog.forms import LoginForm
-from NewLog.utils import redirect_back
+from AhaKnow.forms import LoginForm
+from AhaKnow.utils import redirect_back
 # Login and logout
-from NewLog.models import Admin
+from AhaKnow.models import Admin
 
 auth_bp = Blueprint('auth', __name__)
 

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
     @Author: Zeal Young
-    @URL: https://spring-fly.com
-    @Create: 2020/9/11 22:00
+    @URL: https://ahaknow.com
+    @Create: 2021/9/11 22:00
 """
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, \
@@ -12,7 +12,7 @@ from wtforms.validators import DataRequired, Length, Email, URL, Optional
 from flask_pagedown.fields import PageDownField
 
 # Custom validator for category
-from NewLog.models import Category
+from AhaKnow.models import Category
 
 
 class LoginForm(FlaskForm):

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
     @Author: Zeal Young
-    @URL: https://spring-fly.com
-    @Create: 2020/9/9 22:23
+    @URL: https://ahaknow.com
+    @Create: 2021/9/9 22:23
 """
 import logging
 import os
@@ -15,15 +15,15 @@ from flask_sqlalchemy import get_debug_queries
 from datetime import datetime
 import click
 
-from NewLog.blueprints.admin import admin_bp
-from NewLog.blueprints.auth import auth_bp
-from NewLog.blueprints.blog import blog_bp
-from NewLog.config import config
+from AhaKnow.blueprints.admin import admin_bp
+from AhaKnow.blueprints.auth import auth_bp
+from AhaKnow.blueprints.blog import blog_bp
+from AhaKnow.config import config
 # Use extensions.py to manage flask packages.
-from NewLog.extensions import bootstrap, db, pagedown, mail, moment, login_manager, csrf, migrate, toolbar
+from AhaKnow.extensions import bootstrap, db, pagedown, mail, moment, login_manager, csrf, migrate, toolbar
 # context for base.html
-from NewLog.models import Admin, Post, Comment, Category, Link
-from NewLog.htmltruncate import truncate
+from AhaKnow.models import Admin, Post, Comment, Category, Link
+from AhaKnow.htmltruncate import truncate
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 
@@ -34,7 +34,7 @@ def create_app(config_name=None):
         # Use FLASK_CONFIG in .env to choose.
         config_name = os.getenv('FLASK_CONFIG', 'development')
 
-    app = Flask('NewLog')
+    app = Flask('AhaKnow')
     app.config.from_object(config[config_name])
 
     app.add_template_filter(truncate)
@@ -67,7 +67,7 @@ def register_logging(app):
 
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
-    file_handler = RotatingFileHandler(os.path.join(basedir, 'logs/NewLog.log'),
+    file_handler = RotatingFileHandler(os.path.join(basedir, 'logs/AhaKnow.log'),
                                        maxBytes=1024 * 1024 * 15, backupCount=10)
     file_handler.setFormatter(formatter)
     file_handler.setLevel(logging.INFO)
@@ -76,7 +76,7 @@ def register_logging(app):
         mailhost=app.config['MAIL_SERVER'],
         fromaddr=app.config['MAIL_USERNAME'],
         toaddrs=app.config['BLOG_EMAIL'],
-        subject='Spring Fly occur Error',
+        subject='AhaKnow occur Error',
         credentials=(app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD']))
     mail_handler.setLevel(logging.ERROR)
     mail_handler.setFormatter(request_formatter)
@@ -178,7 +178,7 @@ def register_commands(app):
     @click.option('--post', default=50, help='Quantity of posts, default is 50. Use --post=[num] to set.')
     @click.option('--comment', default=200, help='Quantity of comments, default is 200. Use --comment=[num] to set.')
     def forge(category, post, comment):
-        from NewLog.fakes import fake_admin, fake_categories, fake_comments, fake_links, fake_posts
+        from AhaKnow.fakes import fake_admin, fake_categories, fake_comments, fake_links, fake_posts
         """
             Generate fake data
             usage: flask forge --category/post/comment=[num]
@@ -224,10 +224,10 @@ def register_commands(app):
             click.echo('Creating new administrator account...')
             admin = Admin(
                 username=username,
-                blog_title='Spring Fly',
-                blog_sub_title='Thinking and write.',
-                name='Spring Fly',
-                body='A self-educated writer'
+                blog_title='AhaKnow',
+                blog_sub_title='Thinking and writing.',
+                name='YOUNG',
+                body='A self-educated developer'
             )
             admin.set_password(password)
             db.session.add(admin)

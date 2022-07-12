@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
     @Author: Zeal Young
-    @URL: https://spring-fly.com
-    @Create: 2020/9/10 16:31
+    @URL: https://ahaknow.com
+    @Create: 2021/9/10 16:31
 """
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
@@ -28,7 +28,7 @@ toolbar = DebugToolbarExtension()
 
 @login_manager.user_loader
 def load_user(user_id):
-    from NewLog.models import Admin
+    from AhaKnow.models import Admin
     user = Admin.query.get(int(user_id))
     return user
 

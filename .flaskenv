@@ -1,2 +1,2 @@
-FLASK_APP=NewLog
+FLASK_APP=AhaKnow
 FLASK_ENV=development
